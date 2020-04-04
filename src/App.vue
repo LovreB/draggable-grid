@@ -1,17 +1,25 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <BlockRow v-for="r in rows" :key="r.id"></BlockRow>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import BlockRow from './components/BlockRow.vue'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+      BlockRow
+  },
+  data() {
+    return {
+      rows: [
+        {id: 'hej'},
+        {id: 'två'}
+      ]
+    }
+
   }
 }
 </script>
@@ -24,5 +32,7 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+  display: flex;
+  flex-direction: column;
 }
 </style>
