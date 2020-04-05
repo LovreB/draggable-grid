@@ -89,15 +89,33 @@ export default {
       moveEnd(toRow, [toIndex, insertAfter]) {
 
           if (this.draggedItemIndex && (this.draggedItemIndex.row != toRow || this.draggedItemIndex.block != toIndex)) {
-              if (insertAfter) {
-                  toIndex = toIndex + 1;
+              if (toIndex != -1) {
+                  if (insertAfter) {
+                      toIndex = toIndex + 1;
+                  }
+                  this.moveBlock(
+                      this.draggedItemIndex.row,
+                      this.draggedItemIndex.block,
+                      toRow,
+                      toIndex
+                  )
+              } else {
+                  if (insertAfter) {
+                      toRow = toRow + 1;
+                  }
+                  const row = {
+                      blocks: [
+                      ]
+                  };
+                  this.insertRow(row, toRow);
+                  this.moveBlock(
+                      this.draggedItemIndex.row,
+                      this.draggedItemIndex.block,
+                      toRow,
+                      toIndex +1
+                  )
               }
-              this.moveBlock(
-                this.draggedItemIndex.row,
-                this.draggedItemIndex.block,
-                toRow,
-                toIndex
-              )
+
           }
           this.draggedItemIndex = null
       },
@@ -105,6 +123,7 @@ export default {
           const block = this.rows[fromRow].blocks[fromBlock]
           this.removeBlock(fromRow, fromBlock)
           this.insertBlock(block, toRow, toBlock)
+          this.rows[fromRow].blocks.length == 0 ? this.removeRow(fromRow) : ''
       },
       removeBlock(rowInd, blockInd) {
           this.rows[rowInd].blocks.splice(blockInd, 1)
@@ -112,8 +131,11 @@ export default {
       insertBlock(block, rowInd, blockInd) {
           this.rows[rowInd].blocks.splice(blockInd, 0, block)
       },
+      removeRow(rowInd) {
+          this.rows.splice(rowInd, 1)
+      },
       insertRow(row, rowInd) {
-          this.rows.splice(rowInd, 0, row);
+          this.rows.splice(rowInd, 0, row)
       },
   }
 }

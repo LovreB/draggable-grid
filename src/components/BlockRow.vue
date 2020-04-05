@@ -1,14 +1,24 @@
 <template>
     <div class="blockrow" >
-        <block v-for="(b, i) in blocks"
-               :key="i"
-               :title="b.title"
-               :empty="b.isEmpty"
-               :row="row"
-               @insBelow="$emit('insBelow')"
-               @insSide="$emit('insSide', i)"
-               @moveStart="$emit('dragStart', i)"
-               @moveEnd="$emit('dragEnd', [i, $event])"
+        <div
+            class="empty"
+            @mouseup="$emit('dragEnd', [-1, false])"
+        />
+        <div class="blockrow__blocks">
+            <block v-for="(b, i) in blocks"
+                   :key="i"
+                   :title="b.title"
+                   :empty="b.isEmpty"
+                   :row="row"
+                   @insBelow="$emit('insBelow')"
+                   @insSide="$emit('insSide', i)"
+                   @moveStart="$emit('dragStart', i)"
+                   @moveEnd="$emit('dragEnd', [i, $event])"
+            />
+        </div>
+        <div
+            class="empty"
+            @mouseup="$emit('dragEnd', [-1, true])"
         />
     </div>
 </template>
@@ -38,5 +48,13 @@ export default {
 .blockrow {
     display: flex;
     flex-grow: 1;
+    flex-direction: column;
+}
+.blockrow__blocks {
+    display: flex;
+    flex-grow: 1;
+}
+.empty {
+    height: 25px;
 }
 </style>
