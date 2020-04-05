@@ -1,14 +1,15 @@
 <template>
   <div id="app">
     <BlockRow
-      v-for="(r, index) in rows"
-      :key="index"
+      v-for="(r, i) in rows"
+      :key="i"
       :blocks="r.blocks"
-      :row="index"
-      @insBelow="insertBelowRow(index)"
-      @insSide="insertRightOf(index, $event)"
-      @dragStart="moveStart(index, $event)"
-      @dragEnd="moveEnd(index, $event)"
+      :row="i"
+      @insBelow="insertBelowRow(i)"
+      @insSide="insertRightOf(i, $event)"
+      @dragStart="moveStart(i, $event)"
+      @dragEnd="moveEnd(i, $event)"
+      @removeBlock="removeBlock(i, $event)"
     />
   </div>
 </template>

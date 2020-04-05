@@ -14,6 +14,7 @@
                    @insSide="$emit('insSide', i)"
                    @moveStart="$emit('dragStart', i)"
                    @moveEnd="$emit('dragEnd', [i, $event])"
+                   @removeBlock="$emit('removeBlock', i)"
             />
         </div>
         <div

@@ -10,7 +10,20 @@
             @mouseleave="hideAddButtons"
             @mousedown="$emit('moveStart')"
         >
-            <p >{{ this.title }}</p>
+            <div
+                class="block__header"
+            >
+                <font-awesome-icon icon="pencil-alt" />
+                <font-awesome-icon
+                    icon="trash"
+                    @click="$emit('removeBlock')"
+                />
+                <font-awesome-icon icon="arrows-alt" />
+            </div>
+            <div class="block__content">
+                <p >{{ this.title }}</p>
+            </div>
+            <input v-if="isEditorMode"/>
             <AddButton
                     position="right"
                     :isHidden="!isHovering"
@@ -31,10 +44,11 @@
 
 <script>
 import AddButton from './AddButton.vue'
+
 export default {
     name: 'Block',
     components: {
-      AddButton
+      AddButton,
     },
     props: {
         title: String,
@@ -60,10 +74,19 @@ export default {
 .block {
     background-color: white;
     box-shadow: 0 5px 10px 0 rgba(0,0,0,.1);
-    padding: 30px;
     margin: 5px;
     flex: 1;
     position: relative;
+}
+.block__header {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    height: 30px;
+}
+.block__content {
+    margin: 0 30px 30px;
+    border: dashed 2px;
 }
 .empty {
     width: 25px;
