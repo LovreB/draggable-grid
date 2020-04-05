@@ -36,11 +36,9 @@ export default {
     },
     methods: {
         showAddButtons() {
-            console.log('mouseover')
             this.isHovering = true
         },
         hideAddButtons() {
-            console.log('mouseleave')
             this.isHovering = false
         }
     }

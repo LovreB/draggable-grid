@@ -7,6 +7,8 @@
       :row="index"
       @insBelow="insertBelowRow(index)"
       @insSide="insertRightOf(index, $event)"
+      @dragStart="moveStart(index, $event)"
+      @dragEnd="moveEnd(index, $event)"
     />
   </div>
 </template>
@@ -40,7 +42,8 @@ export default {
                 {title: "hej"}
             ]
         },
-      ]
+      ],
+      draggedItemIndex: null,
     }
   },
   computed: {
@@ -63,15 +66,13 @@ export default {
                   {title: "hej"}
               ]
           };
-          this.rows.splice(rowOrder+1, 0, row);
+          this.insertRow(row, rowOrder+1);
       },
       insertRightOf(rowInd, blockInd) {
-          console.log(rowInd);
-          console.log(blockInd)
           const block = {
               title: "hej"
           };
-          this.rows[rowInd].blocks.splice(blockInd +1, 0, block)
+          this.insertBlock(block, rowInd, blockInd)
       },
       updateOrderFrom(startOrder, isIncreased) {
           for (let i = 0; i <= this.rows.length; i++) {
@@ -84,6 +85,43 @@ export default {
                   }
               }
           }
+      },
+      moveStart(fromRow, fromBlock) {
+          console.log('movestart')
+          console.log(fromRow)
+          console.log(fromBlock)
+          this.draggedItemIndex = {
+              row: fromRow,
+              block: fromBlock
+          }
+      },
+      moveEnd(toRow, toIndex) {
+          console.log('moveend')
+          console.log(toRow)
+          console.log(toIndex)
+          if (this.draggedItemIndex && (this.draggedItemIndex.row != toRow || this.draggedItemIndex.block != toIndex)) {
+              this.moveBlock(
+                this.draggedItemIndex.row,
+                this.draggedItemIndex.block,
+                toRow,
+                toIndex
+              )
+          }
+          this.draggedItemIndex = null
+      },
+      moveBlock(fromRow, fromBlock, toRow, toBlock) {
+          const block = this.rows[fromRow].blocks[fromBlock]
+          this.removeBlock(fromRow, fromBlock)
+          this.insertBlock(block, toRow, toBlock)
+      },
+      removeBlock(rowInd, blockInd) {
+          this.rows[rowInd].blocks.splice(blockInd, 1)
+      },
+      insertBlock(block, rowInd, blockInd) {
+          this.rows[rowInd].blocks.splice(blockInd +1, 0, block)
+      },
+      insertRow(row, rowInd) {
+          this.rows.splice(rowInd, 0, row);
       },
       sortRows() {
           this.rows.sort(function(a, b){return a.order-b.order})

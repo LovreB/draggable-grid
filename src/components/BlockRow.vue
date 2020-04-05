@@ -1,11 +1,13 @@
 <template>
     <div class="blockrow" >
-        <block v-for="(b, index) in blocks"
-               :key="b.title"
+        <block v-for="(b, i) in blocks"
+               :key="i"
                :title="b.title"
                :row="row"
                @insBelow="$emit('insBelow')"
-               @insSide="$emit('insSide', index)"
+               @insSide="$emit('insSide', i)"
+               @mousedown.native="$emit('dragStart', i)"
+               @mouseup.native="$emit('dragEnd', i)"
         />
     </div>
 </template>
