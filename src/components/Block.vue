@@ -1,12 +1,18 @@
 <template>
-    <div class="block" >
+    <div
+        class="block"
+        @mouseover="showAddButtons"
+        @mouseleave="hideAddButtons"
+    >
         <p >{{ this.title }}</p>
         <AddButton
             position="right"
+            v-show="isHovering"
             @click.native="$emit('insSide')"
         />
         <AddButton
             position="bottom"
+            v-show="isHovering"
             @click.native="$emit('insBelow')"
         />
     </div>
@@ -25,7 +31,17 @@ export default {
     data: function() {
         return {
             isEditorMode: false,
-            isHovered: false
+            isHovering: false
+        }
+    },
+    methods: {
+        showAddButtons() {
+            console.log('mouseover')
+            this.isHovering = true
+        },
+        hideAddButtons() {
+            console.log('mouseleave')
+            this.isHovering = false
         }
     }
 }
