@@ -1,6 +1,11 @@
 <template>
   <div id="app">
-    <BlockRow v-for="r in rows" :key="r.id"></BlockRow>
+    <BlockRow
+      v-for="(r, index) in rows"
+      :key="index"
+      :blocks="r.blocks"
+      @click.native="insertBelowRow(index)"
+    />
   </div>
 </template>
 
@@ -15,11 +20,64 @@ export default {
   data() {
     return {
       rows: [
-        {id: 'hej'},
-        {id: 'två'}
+        { order: 1,
+          blocks: [
+              {title: "hej"},
+              {title: "då"},
+              {title: "hoho"}
+          ]
+        },
+        { order: 2,
+            blocks: [
+                {title: "då"},
+                {title: "hoho"}
+            ]
+        },
+        { order: 3,
+            blocks: [
+                {title: "hej"}
+            ]
+        },
       ]
     }
-
+  },
+  computed: {
+  },
+  methods: {
+      insertInRow()  {
+          this.rows.push(
+              {  order: 0,
+                blocks: [
+                    {title: "hej"}
+                ]
+              },
+          );
+          this.sortRows()
+      },
+      insertBelowRow(rowOrder) {
+          const row = {
+              order: rowOrder + 1,
+              blocks: [
+                  {title: "hej"}
+              ]
+          };
+          this.rows.splice(rowOrder+1, 0, row);
+      },
+      updateOrderFrom(startOrder, isIncreased) {
+          for (let i = 0; i <= this.rows.length; i++) {
+              let order = this.rows[i].order
+              if (order >= startOrder) {
+                  if (isIncreased) {
+                      this.rows[i].order = order + 1
+                  } else {
+                      this.rows[i].order = order - 1
+                  }
+              }
+          }
+      },
+      sortRows() {
+          this.rows.sort(function(a, b){return a.order-b.order})
+      },
   }
 }
 </script>
@@ -31,8 +89,8 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
   display: flex;
   flex-direction: column;
+  background-color: #f4f3f4;
 }
 </style>

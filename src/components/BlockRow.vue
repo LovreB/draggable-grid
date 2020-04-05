@@ -15,13 +15,10 @@ export default {
     components: {
         Block
     },
-    data() {
-        return {
-            blocks: [
-                {title: "hej"},
-                {title: "då"},
-                {title: "hoho"}
-            ],
+    props: {
+        blocks: {
+            type: Array,
+            validator: () => []
         }
     }
 }
