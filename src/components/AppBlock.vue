@@ -8,22 +8,25 @@
             class="block"
             @mouseover="showAddButtons"
             @mouseleave="hideAddButtons"
-            @mousedown="$emit('moveStart')"
         >
             <div
                 class="block__header"
             >
-                <font-awesome-icon icon="pencil-alt" />
+                <font-awesome-icon icon="pencil-alt"
+                    @click="startEdit"
+                />
                 <font-awesome-icon
                     icon="trash"
                     @click="$emit('removeBlock')"
                 />
-                <font-awesome-icon icon="arrows-alt" />
+                <font-awesome-icon icon="arrows-alt"
+                   @mousedown="$emit('moveStart')"
+                />
             </div>
             <div class="block__content">
-                <p >{{ this.title }}</p>
+                <p >{{ this.text }}</p>
             </div>
-            <input v-if="isEditorMode"/>
+            <input v-model="text" placeholder="edit me">
             <AddButton
                     position="right"
                     :isHidden="!isHovering"
@@ -56,8 +59,12 @@ export default {
     data: function() {
         return {
             isEditorMode: false,
-            isHovering: false
+            isHovering: false,
+            text: ''
         }
+    },
+    created() {
+        this.text = this.title
     },
     methods: {
         showAddButtons() {
@@ -65,6 +72,9 @@ export default {
         },
         hideAddButtons() {
             this.isHovering = false
+        },
+        startEdit() {
+            this.isEditorMode = true
         }
     }
 }

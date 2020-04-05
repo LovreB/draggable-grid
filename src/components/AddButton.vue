@@ -2,7 +2,7 @@
     <div
         class="addbutton"
         :class="[{'addbutton--hidden': isHidden}, positionClass]">
-        <p>+</p>
+        <font-awesome-icon icon="plus"/>
     </div>
 </template>
 
@@ -44,6 +44,8 @@ export default {
     font-weight:bold;
     display: flex;
     transition: opacity 0.5s;
+    align-items: center;
+    justify-content: center;
 }
 .addbutton--hidden {
     opacity: 0;
