@@ -4,7 +4,9 @@
       v-for="(r, index) in rows"
       :key="index"
       :blocks="r.blocks"
-      @click.native="insertBelowRow(index)"
+      :row="index"
+      @insBelow="insertBelowRow(index)"
+      @insSide="insertRightOf(index, $event)"
     />
   </div>
 </template>
@@ -62,6 +64,14 @@ export default {
               ]
           };
           this.rows.splice(rowOrder+1, 0, row);
+      },
+      insertRightOf(rowInd, blockInd) {
+          console.log(rowInd);
+          console.log(blockInd)
+          const block = {
+              title: "hej"
+          };
+          this.rows[rowInd].blocks.splice(blockInd +1, 0, block)
       },
       updateOrderFrom(startOrder, isIncreased) {
           for (let i = 0; i <= this.rows.length; i++) {

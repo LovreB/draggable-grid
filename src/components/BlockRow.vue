@@ -1,8 +1,11 @@
 <template>
     <div class="blockrow" >
-        <block v-for="b in blocks"
+        <block v-for="(b, index) in blocks"
                :key="b.title"
                :title="b.title"
+               :row="row"
+               @insBelow="$emit('insBelow')"
+               @insSide="$emit('insSide', index)"
         />
     </div>
 </template>
@@ -19,12 +22,15 @@ export default {
         blocks: {
             type: Array,
             validator: () => []
+        },
+        row: {
+            type: Number,
+            required: true
         }
     }
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .blockrow {
     display: flex;

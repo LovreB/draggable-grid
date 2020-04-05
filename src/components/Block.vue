@@ -1,14 +1,26 @@
 <template>
     <div class="block" >
         <p >{{ this.title }}</p>
+        <AddButton
+            position="right"
+            @click.native="$emit('insSide')"
+        />
+        <AddButton
+            position="bottom"
+            @click.native="$emit('insBelow')"
+        />
     </div>
 </template>
 
 <script>
+import AddButton from './AddButton.vue'
 export default {
     name: 'Block',
+    components: {
+      AddButton
+    },
     props: {
-        title: String
+        title: String,
     },
     data: function() {
         return {
@@ -19,7 +31,6 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .block {
     background-color: white;
@@ -27,5 +38,6 @@ export default {
     padding: 30px;
     margin: 30px;
     flex: 1;
+    position: relative;
 }
 </style>
