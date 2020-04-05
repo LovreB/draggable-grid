@@ -24,20 +24,21 @@ export default {
   data() {
     return {
       rows: [
-        { order: 1,
+        {
           blocks: [
               {title: "hej"},
               {title: "då"},
               {title: "hoho"}
           ]
         },
-        { order: 2,
+        {
             blocks: [
                 {title: "då"},
                 {title: "hoho"}
             ]
         },
-        { order: 3,
+
+          {
             blocks: [
                 {title: "hej"}
             ]
@@ -49,19 +50,9 @@ export default {
   computed: {
   },
   methods: {
-      insertInRow()  {
-          this.rows.push(
-              {  order: 0,
-                blocks: [
-                    {title: "hej"}
-                ]
-              },
-          );
-          this.sortRows()
-      },
+
       insertBelowRow(rowOrder) {
           const row = {
-              order: rowOrder + 1,
               blocks: [
                   {title: "hej"}
               ]
@@ -95,11 +86,12 @@ export default {
               block: fromBlock
           }
       },
-      moveEnd(toRow, toIndex) {
-          console.log('moveend')
-          console.log(toRow)
-          console.log(toIndex)
+      moveEnd(toRow, [toIndex, insertAfter]) {
+
           if (this.draggedItemIndex && (this.draggedItemIndex.row != toRow || this.draggedItemIndex.block != toIndex)) {
+              if (insertAfter) {
+                  toIndex = toIndex + 1;
+              }
               this.moveBlock(
                 this.draggedItemIndex.row,
                 this.draggedItemIndex.block,
@@ -118,13 +110,10 @@ export default {
           this.rows[rowInd].blocks.splice(blockInd, 1)
       },
       insertBlock(block, rowInd, blockInd) {
-          this.rows[rowInd].blocks.splice(blockInd +1, 0, block)
+          this.rows[rowInd].blocks.splice(blockInd, 0, block)
       },
       insertRow(row, rowInd) {
           this.rows.splice(rowInd, 0, row);
-      },
-      sortRows() {
-          this.rows.sort(function(a, b){return a.order-b.order})
       },
   }
 }

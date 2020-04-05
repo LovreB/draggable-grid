@@ -1,19 +1,30 @@
 <template>
-    <div
-        class="block"
-        @mouseover="showAddButtons"
-        @mouseleave="hideAddButtons"
-    >
-        <p >{{ this.title }}</p>
-        <AddButton
-            position="right"
-            v-show="isHovering"
-            @click.native="$emit('insSide')"
+    <div class="block__container">
+        <div
+            class="empty"
+            @mouseup="$emit('moveEnd', false)"
         />
-        <AddButton
-            position="bottom"
-            v-show="isHovering"
-            @click.native="$emit('insBelow')"
+        <div
+            class="block"
+            @mouseover="showAddButtons"
+            @mouseleave="hideAddButtons"
+            @mousedown="$emit('moveStart')"
+        >
+            <p >{{ this.title }}</p>
+            <AddButton
+                    position="right"
+                    :isHidden="!isHovering"
+                    @click.native="$emit('insSide')"
+            />
+            <AddButton
+                    position="bottom"
+                    :isHidden="!isHovering"
+                    @click.native="$emit('insBelow')"
+            />
+        </div>
+        <div
+            class="empty"
+            @mouseup="$emit('moveEnd', true)"
         />
     </div>
 </template>
@@ -50,8 +61,16 @@ export default {
     background-color: white;
     box-shadow: 0 5px 10px 0 rgba(0,0,0,.1);
     padding: 30px;
-    margin: 30px;
+    margin: 5px;
     flex: 1;
     position: relative;
+}
+.empty {
+    width: 25px;
+}
+.block__container {
+    display: flex;
+    flex: 1;
+    flex-direction: row;
 }
 </style>

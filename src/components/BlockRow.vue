@@ -3,11 +3,12 @@
         <block v-for="(b, i) in blocks"
                :key="i"
                :title="b.title"
+               :empty="b.isEmpty"
                :row="row"
                @insBelow="$emit('insBelow')"
                @insSide="$emit('insSide', i)"
-               @mousedown.native="$emit('dragStart', i)"
-               @mouseup.native="$emit('dragEnd', i)"
+               @moveStart="$emit('dragStart', i)"
+               @moveEnd="$emit('dragEnd', [i, $event])"
         />
     </div>
 </template>

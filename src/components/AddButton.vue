@@ -1,7 +1,7 @@
 <template>
     <div
         class="addbutton"
-        :class="positionClass">
+        :class="[{'addbutton--hidden': isHidden}, positionClass]">
         <p>+</p>
     </div>
 </template>
@@ -17,6 +17,9 @@ export default {
         },
         position: {
             type: String,
+        },
+        isHidden: {
+            type: Boolean
         }
     },
     computed: {
@@ -40,6 +43,10 @@ export default {
     color: white;
     font-weight:bold;
     display: flex;
+    transition: opacity 0.5s;
+}
+.addbutton--hidden {
+    opacity: 0;
 }
 .addbutton--right {
     position: absolute;
