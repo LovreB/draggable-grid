@@ -2,35 +2,36 @@
     <div class="blockrow" >
         <div
             class="empty"
-            @mouseup="$emit('dragEnd', [-1, false])"
+            @drop="$emit('dragEnd', [-1, false])"
+            @dragover="allowDrop"
         />
         <div class="blockrow__blocks">
-            <block v-for="(b, i) in blocks"
+            <app-block v-for="(b, i) in blocks"
                    :key="i"
-                   :title="b.title"
-                   :empty="b.isEmpty"
-                   :row="row"
+                   :defaultText="b.defaultText"
+                   :indexRow="row"
+                   :indexBlock="i"
                    @insBelow="$emit('insBelow')"
                    @insSide="$emit('insSide', i)"
-                   @moveStart="$emit('dragStart', i)"
+                   @dragstart="$emit('dragstart', $event)"
                    @moveEnd="$emit('dragEnd', [i, $event])"
                    @removeBlock="$emit('removeBlock', i)"
             />
         </div>
         <div
             class="empty"
-            @mouseup="$emit('dragEnd', [-1, true])"
+            @drop="$emit('dragEnd', [-1, true])"
         />
     </div>
 </template>
 
 <script>
-import Block from './Block.vue'
+import AppBlock from './AppBlock.vue'
 
 export default {
     name: 'BlockRow',
     components: {
-        Block
+        AppBlock
     },
     props: {
         blocks: {
@@ -40,6 +41,15 @@ export default {
         row: {
             type: Number,
             required: true
+        }
+    },
+    methods: {
+        allowDrop(ev) {
+            ev.preventDefault();
+        },
+        hoho(ev) {
+            console.log(ev)
+            console.log('hihi')
         }
     }
 }

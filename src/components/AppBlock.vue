@@ -1,60 +1,51 @@
 <template>
     <div class="block__container">
-        <div
-            class="empty"
-            @mouseup="$emit('moveEnd', false)"
+        <app-block-space
+            @drop.native="$emit('moveEnd', false)"
+
         />
         <div
             class="block"
             @mouseover="showAddButtons"
             @mouseleave="hideAddButtons"
         >
-            <div
-                class="block__header"
-            >
-                <font-awesome-icon icon="pencil-alt"
-                    @click="startEdit"
-                />
-                <font-awesome-icon
-                    icon="trash"
-                    @click="$emit('removeBlock')"
-                />
-                <font-awesome-icon icon="arrows-alt"
-                   @mousedown="$emit('moveStart')"
-                />
-            </div>
-            <div class="block__content">
-                <p >{{ this.text }}</p>
-            </div>
-            <input v-model="text" placeholder="edit me">
-            <AddButton
-                    position="right"
-                    :isHidden="!isHovering"
-                    @click.native="$emit('insSide')"
+            <AppBlockContent
+                draggable="true"
+                @dragstart.native="dragstart"
             />
             <AddButton
-                    position="bottom"
-                    :isHidden="!isHovering"
-                    @click.native="$emit('insBelow')"
+                position="right"
+                :isHidden="!isHovering"
+                @click.native="$emit('insSide')"
+            />
+            <AddButton
+                position="bottom"
+                :isHidden="!isHovering"
+                @click.native="$emit('insBelow')"
             />
         </div>
-        <div
-            class="empty"
-            @mouseup="$emit('moveEnd', true)"
+        <app-block-space
+                @drop.native="$emit('moveEnd', true)"
         />
     </div>
 </template>
 
 <script>
 import AddButton from './AddButton.vue'
+import AppBlockSpace from './AppBlockSpace.vue'
+import AppBlockContent from './AppBlockContent.vue'
 
 export default {
-    name: 'Block',
+    name: 'AppBlock',
     components: {
-      AddButton,
+        AddButton,
+        AppBlockSpace,
+        AppBlockContent
     },
     props: {
         title: String,
+        indexRow: Number,
+        indexBlock: Number
     },
     data: function() {
         return {
@@ -75,6 +66,13 @@ export default {
         },
         startEdit() {
             this.isEditorMode = true
+        },
+        startDrag() {
+            console.log('hoho')
+            this.isHovering = false
+        },
+        dragstart() {
+            this.$emit('dragstart', [this.indexRow, this.indexBlock, this.text])
         }
     }
 }
@@ -87,6 +85,7 @@ export default {
     margin: 5px;
     flex: 1;
     position: relative;
+    font-size: 16px;
 }
 .block__header {
     display: flex;

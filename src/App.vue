@@ -7,7 +7,7 @@
       :row="i"
       @insBelow="insertBelowRow(i)"
       @insSide="insertRightOf(i, $event)"
-      @dragStart="moveStart(i, $event)"
+      @dragstart="moveStart($event)"
       @dragEnd="moveEnd(i, $event)"
       @removeBlock="removeBlock(i, $event)"
     />
@@ -27,21 +27,21 @@ export default {
       rows: [
         {
           blocks: [
-              {title: "hej"},
-              {title: "då"},
-              {title: "hoho"}
+              {defaultText: ""},
+              {defaultText: ""},
+              {defaultText: ""},
           ]
         },
         {
             blocks: [
-                {title: "då"},
-                {title: "hoho"}
+                {defaultText: ""},
+                {defaultText: "hoho"}
             ]
         },
 
           {
             blocks: [
-                {title: "hej"}
+                {defaultText: "hej"}
             ]
         },
       ],
@@ -78,13 +78,15 @@ export default {
               }
           }
       },
-      moveStart(fromRow, fromBlock) {
+      moveStart([fromRow, fromBlock, text]) {
           console.log('movestart')
           console.log(fromRow)
           console.log(fromBlock)
+          console.log(text)
           this.draggedItemIndex = {
               row: fromRow,
-              block: fromBlock
+              block: fromBlock,
+              text: text
           }
       },
       moveEnd(toRow, [toIndex, insertAfter]) {
@@ -120,8 +122,8 @@ export default {
           }
           this.draggedItemIndex = null
       },
-      moveBlock(fromRow, fromBlock, toRow, toBlock) {
-          const block = this.rows[fromRow].blocks[fromBlock]
+      moveBlock(fromRow, fromBlock, toRow, toBlock, text) {
+          const block = {defaultText: text}
           this.removeBlock(fromRow, fromBlock)
           this.insertBlock(block, toRow, toBlock)
           this.rows[fromRow].blocks.length == 0 ? this.removeRow(fromRow) : ''
