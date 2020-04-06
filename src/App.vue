@@ -49,14 +49,14 @@ export default {
       insertBelowRow(rowOrder) {
           const row = {
               blocks: [
-                  {defaultText: ""}
+                  {text: ""}
               ]
           };
           this.insertRow(row, rowOrder+1);
       },
       insertRightOf(rowInd, blockInd) {
           const block = {
-              defaultText: ""
+              text: ""
           }
           this.insertBlock(block, rowInd, blockInd +1)
       },
