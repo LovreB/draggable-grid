@@ -7,8 +7,8 @@
       :row="i"
       @insBelow="insertBelowRow(i)"
       @insSide="insertRightOf(i, $event)"
-      @dragstart="moveStart($event)"
-      @dragEnd="moveEnd($event)"
+      @dragstart="dragStart($event)"
+      @dragEnd="dragEnd($event)"
       @removeBlock="removeBlock(i, $event)"
       @updateText="updateBlockText($event)"
     />
@@ -28,21 +28,9 @@ export default {
       rows: [
         {
           blocks: [
-              {text: "0-0"},
-              {text: "0-1"},
-              {text: ""},
+              {text: ""}
           ]
-        },
-        { blocks: [
-            {text: "1-0"},
-            {text: "1-1"},
-            ]
-        },
-        {
-          blocks: [
-            {text: "2-0"}
-          ]
-        },
+        }
       ],
       draggedBlock: null,
     }
@@ -62,18 +50,16 @@ export default {
           }
           this.insertBlock(block, rowInd, blockInd +1)
       },
-      moveStart([fromRow, fromBlock, text]) {
-          console.log(text)
+
+      // Called when a block starts to be dracked
+      dragStart([fromRowIndex, fromBlockIndex]) {
           this.draggedBlock = {
-              row: fromRow,
-              block: fromBlock,
-              text: text
+              row: fromRowIndex,
+              block: fromBlockIndex
           }
       },
-      moveEnd([toRowIndex, toBlockIndex, isNewRow]) {
-          console.log('MOVEEND');
-          console.log(toRowIndex)
-          console.log(toBlockIndex)
+      // This method is called when a block is dropped, moving the block from start position to end position
+      dragEnd([toRowIndex, toBlockIndex, isNewRow]) {
 
           let fromRowIndex = this.draggedBlock.row
           let fromBlockIndex = this.draggedBlock.block
@@ -104,10 +90,8 @@ export default {
           this.draggedBlock = null
       },
       removeBlock(rowInd, blockInd) {
-          console.log('remove Block', rowInd, blockInd)
           this.rows[rowInd].blocks.splice(blockInd, 1)
-          this.rows[rowInd].blocks.length == 0 ? this.removeRow(rowInd) : ''
-
+          this.rows[rowInd].blocks.length == 0 ? this.removeRow(rowInd) : '' // Check if row is empty
       },
       insertBlock(block, rowInd, blockInd) {
           this.rows[rowInd].blocks.splice(blockInd, 0, block)

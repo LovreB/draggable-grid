@@ -12,14 +12,14 @@
             @removeBlock="$emit('removeBlock')"
         />
         <AddButton
-                position="right"
-                :isHidden="!isHovering"
-                @click.native="$emit('insSide')"
+            position="right"
+            :isHidden="!isHovering"
+            @click.native="$emit('insSide')"
         />
         <AddButton
-                position="bottom"
-                :isHidden="!isHovering"
-                @click.native="$emit('insBelow')"
+            position="bottom"
+            :isHidden="!isHovering"
+            @click.native="$emit('insBelow')"
         />
     </div>
 </template>
@@ -41,7 +41,6 @@ export default {
     },
     data: function() {
         return {
-            isEditorMode: false,
             isHovering: false
         }
     },
@@ -52,26 +51,11 @@ export default {
         hideAddButtons() {
             this.isHovering = false
         },
-        startEdit() {
-            this.isEditorMode = true
-        },
-        startDrag() {
-            console.log('hoho')
-            this.isHovering = false
-        },
         dragstart() {
-            this.$emit('dragstart', [this.indexRow, this.indexBlock, this.text])
+            this.$emit('dragstart', [this.indexRow, this.indexBlock])
         },
         updateText(text) {
             this.text = text
-        },
-        drop(ev){
-            console.log('DROP');
-            ev.preventDefault()
-        },
-        allowDrop(ev) {
-            console.log('hihi')
-            ev.preventDefault();
         }
     }
 }

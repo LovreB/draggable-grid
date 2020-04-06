@@ -9,12 +9,7 @@
 <script>
 export default {
     name: 'AddButton',
-
     props: {
-        blocks: {
-            type: Array,
-            validator: () => []
-        },
         position: {
             type: String,
         },
@@ -27,7 +22,6 @@ export default {
             return "addbutton--"+this.position
         }
     }
-
 }
 </script>
 
@@ -53,7 +47,7 @@ export default {
 .addbutton--right {
     position: absolute;
     right: -30px;
-    top: 25%;
+    top: calc(50% - 30px);
 }
 .addbutton--bottom {
     position: absolute;

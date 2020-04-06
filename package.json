@@ -40,7 +40,8 @@
     },
     "rules": {
       "vue/html-self-closing": "off",
-      "vue/valid-v-for": "off"
+      "vue/valid-v-for": "off",
+      "vue/no-textarea-mustache": "off"
     }
   },
   "browserslist": [

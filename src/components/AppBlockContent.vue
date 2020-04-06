@@ -14,7 +14,7 @@
                 @focus="startEdit"
                 @blur="stopEdit"
                 @input="$emit('updateText', $event.target.value)"
-            />
+            >{{this.text}}</textarea>
         </div>
     </div>
 </template>
@@ -37,6 +37,9 @@ export default {
     computed: {
         editing() {
             return ( this.text == '' || this.isTextareaActive)
+        },
+        placeholder() {
+            return (this.text == '') ? 'Click here to edit' : this.text
         }
     },
     methods: {
