@@ -3,6 +3,7 @@
         <div class="block-content__header">
             <font-awesome-icon class=block-content__icon icon="pencil-alt" @click="toggleEdit"/>
             <font-awesome-icon class=block-content__icon icon="trash" @click="$emit('removeBlock')" />
+            <font-awesome-icon class=block-content__icon icon="arrows-alt" />
         </div>
         <div class="block-content__body">
             <p v-if="!editing">{{this.text}}</p>
