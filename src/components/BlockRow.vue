@@ -1,14 +1,13 @@
 <template>
     <div class="blockrow" >
         <app-block-space
+            :isRow="true"
             @drop.native="$emit('dragEnd', [row, 0, true])"
-            @dragover.native="allowDrop"
         />
         <div class="blockrow__blocks">
             <template v-for="(b,i) in blocks">
                 <app-block-space
                     @drop.native="$emit('dragEnd', [row, i, false])"
-                    @dragover.native="allowDrop"
                 />
                 <app-block
                     :text="b.text"

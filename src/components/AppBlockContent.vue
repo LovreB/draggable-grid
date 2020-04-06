@@ -40,12 +40,6 @@ export default {
         }
     },
     methods: {
-        showAddButtons() {
-            this.isHovering = true
-        },
-        hideAddButtons() {
-            this.isHovering = false
-        },
         toggleEdit() {
             this.isTextareaActive = !this.isTextareaActive
         },
