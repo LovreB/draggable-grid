@@ -60,7 +60,7 @@ export default {
           const block = {
               defaultText: ""
           }
-          this.insertBlock(block, rowInd, blockInd)
+          this.insertBlock(block, rowInd, blockInd +1)
       },
       moveStart([fromRow, fromBlock, text]) {
           console.log(text)
