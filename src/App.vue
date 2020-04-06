@@ -1,26 +1,36 @@
 <template>
   <div id="app">
-    <BlockRow
-      v-for="(r, i) in rows"
-      :key="i"
-      :blocks="r.blocks"
-      :row="i"
-      @insBelow="insertBelowRow(i)"
-      @insSide="insertRightOf(i, $event)"
-      @dragstart="dragStart($event)"
-      @dragEnd="dragEnd($event)"
-      @removeBlock="removeBlock(i, $event)"
-      @updateText="updateBlockText($event)"
+    <template v-for="(r,i) in rows">
+      <app-block-space
+        :isRow="true"
+        @drop.native="dragEnd([i, 0, true])"
+      />
+      <BlockRow
+        :blocks="r.blocks"
+        :row="i"
+        @insBelow="insertBelowRow(i)"
+        @insSide="insertRightOf(i, $event)"
+        @dragstart="dragStart($event)"
+        @dragEnd="dragEnd($event)"
+        @removeBlock="removeBlock(i, $event)"
+        @updateText="updateBlockText($event)"
+      />
+    </template>
+    <app-block-space
+      :isRow="true"
+      @drop.native="dragEnd([rows.length, 0, true])"
     />
   </div>
 </template>
 
 <script>
+import AppBlockSpace from './components/AppBlockSpace.vue'
 import BlockRow from './components/BlockRow.vue'
 
 export default {
   name: 'App',
   components: {
+      AppBlockSpace,
       BlockRow
   },
   data() {

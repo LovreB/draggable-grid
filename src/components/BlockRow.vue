@@ -1,9 +1,6 @@
 <template>
     <div class="blockrow" >
-        <app-block-space
-            :isRow="true"
-            @drop.native="$emit('dragEnd', [row, 0, true])"
-        />
+
         <div class="blockrow__blocks">
             <template v-for="(b,i) in blocks">
                 <app-block-space
@@ -20,7 +17,9 @@
                     @updateText="$emit('updateText', $event)"
                 />
             </template>
-            <app-block-space/>
+            <app-block-space
+                @drop.native="$emit('dragEnd', [row, blocks.length, false])"
+            />
         </div>
     </div>
 </template>
