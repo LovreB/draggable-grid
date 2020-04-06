@@ -1,4 +1,4 @@
-# hello-world
+# a draggable-grid-project
 
 ## Project setup
 ```
