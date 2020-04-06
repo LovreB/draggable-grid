@@ -21,6 +21,7 @@
         <div
             class="empty"
             @drop="$emit('dragEnd', [-1, true])"
+            @dragover="allowDrop"
         />
     </div>
 </template>

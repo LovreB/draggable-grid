@@ -1,10 +1,18 @@
 <template>
-    <div class="space"/>
+    <div
+        class="space"
+        @dragover="allowDrop"
+    />
 </template>
 
 <script>
 export default {
-    name: 'AppBlockSpace'
+    name: 'AppBlockSpace',
+    methods: {
+        allowDrop(ev) {
+            ev.preventDefault();
+        }
+    }
 }
 </script>
 

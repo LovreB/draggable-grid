@@ -2,7 +2,7 @@
     <div class="block__container">
         <app-block-space
             @drop.native="$emit('moveEnd', false)"
-
+            @dragover.native="allowDrop"
         />
         <div
             class="block"
@@ -11,21 +11,25 @@
         >
             <AppBlockContent
                 draggable="true"
+                :defaultText="defaultText"
                 @dragstart.native="dragstart"
+                @updateText="updateText"
             />
             <AddButton
-                position="right"
-                :isHidden="!isHovering"
-                @click.native="$emit('insSide')"
+                    position="right"
+                    :isHidden="!isHovering"
+                    @click.native="$emit('insSide')"
             />
             <AddButton
-                position="bottom"
-                :isHidden="!isHovering"
-                @click.native="$emit('insBelow')"
+                    position="bottom"
+                    :isHidden="!isHovering"
+                    @click.native="$emit('insBelow')"
             />
         </div>
+
         <app-block-space
-                @drop.native="$emit('moveEnd', true)"
+            @drop.native="$emit('moveEnd', true)"
+            @dragover.native="allowDrop"
         />
     </div>
 </template>
@@ -43,7 +47,7 @@ export default {
         AppBlockContent
     },
     props: {
-        title: String,
+        defaultText: String,
         indexRow: Number,
         indexBlock: Number
     },
@@ -51,7 +55,7 @@ export default {
         return {
             isEditorMode: false,
             isHovering: false,
-            text: ''
+            text: '',
         }
     },
     created() {
@@ -73,6 +77,12 @@ export default {
         },
         dragstart() {
             this.$emit('dragstart', [this.indexRow, this.indexBlock, this.text])
+        },
+        updateText(text) {
+            this.text = text
+        },
+        allowDrop(ev) {
+            ev.preventDefault();
         }
     }
 }
@@ -86,23 +96,13 @@ export default {
     flex: 1;
     position: relative;
     font-size: 16px;
-}
-.block__header {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    height: 30px;
-}
-.block__content {
-    margin: 0 30px 30px;
-    border: dashed 2px;
-}
-.empty {
-    width: 25px;
+    align-items: stretch;
 }
 .block__container {
     display: flex;
     flex: 1;
     flex-direction: row;
+    position: relative;
+
 }
 </style>

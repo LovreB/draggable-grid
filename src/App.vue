@@ -38,11 +38,10 @@ export default {
                 {defaultText: "hoho"}
             ]
         },
-
-          {
-            blocks: [
-                {defaultText: "hej"}
-            ]
+        {
+          blocks: [
+              {defaultText: "hej"}
+          ]
         },
       ],
       draggedItemIndex: null,
@@ -55,15 +54,15 @@ export default {
       insertBelowRow(rowOrder) {
           const row = {
               blocks: [
-                  {title: "hej"}
+                  {defaultText: "hej"}
               ]
           };
           this.insertRow(row, rowOrder+1);
       },
       insertRightOf(rowInd, blockInd) {
           const block = {
-              title: "hej"
-          };
+              defaultText: "hej"
+          }
           this.insertBlock(block, rowInd, blockInd)
       },
       updateOrderFrom(startOrder, isIncreased) {
@@ -100,7 +99,8 @@ export default {
                       this.draggedItemIndex.row,
                       this.draggedItemIndex.block,
                       toRow,
-                      toIndex
+                      toIndex,
+                      this.draggedItemIndex.text
                   )
               } else {
                   if (insertAfter) {
@@ -115,7 +115,8 @@ export default {
                       this.draggedItemIndex.row,
                       this.draggedItemIndex.block,
                       toRow,
-                      toIndex +1
+                      toIndex +1,
+                      this.draggedItemIndex.text
                   )
               }
 
@@ -123,6 +124,7 @@ export default {
           this.draggedItemIndex = null
       },
       moveBlock(fromRow, fromBlock, toRow, toBlock, text) {
+          console.log(text)
           const block = {defaultText: text}
           this.removeBlock(fromRow, fromBlock)
           this.insertBlock(block, toRow, toBlock)
