@@ -86,6 +86,7 @@ export default {
     position: relative;
     font-size: 16px;
     align-items: stretch;
+    min-height: 200px;
 }
 .block__container {
     display: flex;

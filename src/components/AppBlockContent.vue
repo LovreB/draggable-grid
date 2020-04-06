@@ -62,6 +62,8 @@ export default {
 .block-content {
     flex: 1;
     height: 100%;
+    display: flex;
+    flex-direction: column;
 }
 .block-content__header {
     display: flex;
@@ -74,6 +76,7 @@ export default {
 .block-content__body {
     margin: 0 30px 30px;
     display: flex;
+    flex: 1;
 }
 .block-content__icon {
     color: #d9d9d9;
