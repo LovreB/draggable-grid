@@ -44,12 +44,6 @@ export default {
             type: Number,
             required: true
         }
-    },
-    methods: {
-        allowDrop(ev) {
-            ev.preventDefault();
-            console.log('allowDrop')
-        }
     }
 }
 </script>

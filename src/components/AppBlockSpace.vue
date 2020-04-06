@@ -32,7 +32,6 @@ export default {
     methods: {
         allowDrop(ev) {
             ev.preventDefault()
-            console.log('inappblock')
         },
         onDrop(onTarget){
             this.dragover = onTarget
