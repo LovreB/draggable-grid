@@ -18,7 +18,7 @@ export default {
 
 <style scoped>
 .space {
-    width: 25px;
-    height: 25px;
+    min-width: 25px;
+    min-height: 25px;
 }
 </style>

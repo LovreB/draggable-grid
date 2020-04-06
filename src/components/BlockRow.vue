@@ -1,38 +1,40 @@
 <template>
     <div class="blockrow" >
-        <div
-            class="empty"
-            @drop="$emit('dragEnd', [-1, false])"
-            @dragover="allowDrop"
+        <app-block-space
+            @drop.native="$emit('dragEnd', [row, 0, true])"
+            @dragover.native="allowDrop"
         />
         <div class="blockrow__blocks">
-            <app-block v-for="(b, i) in blocks"
-                   :key="i"
-                   :defaultText="b.defaultText"
-                   :indexRow="row"
-                   :indexBlock="i"
-                   @insBelow="$emit('insBelow')"
-                   @insSide="$emit('insSide', i)"
-                   @dragstart="$emit('dragstart', $event)"
-                   @moveEnd="$emit('dragEnd', [i, $event])"
-                   @removeBlock="$emit('removeBlock', i)"
-            />
+            <template v-for="(b,i) in blocks">
+                <app-block-space
+                    @drop.native="$emit('dragEnd', [row, i, false])"
+                    @dragover.native="allowDrop"
+                />
+                <app-block
+                    :text="b.text"
+                    :indexRow="row"
+                    :indexBlock="i"
+                    @insBelow="$emit('insBelow')"
+                    @insSide="$emit('insSide', i)"
+                    @dragstart="$emit('dragstart', $event)"
+                    @removeBlock="$emit('removeBlock', i)"
+                    @updateText="$emit('updateText', $event)"
+                />
+            </template>
+            <app-block-space/>
         </div>
-        <div
-            class="empty"
-            @drop="$emit('dragEnd', [-1, true])"
-            @dragover="allowDrop"
-        />
     </div>
 </template>
 
 <script>
-import AppBlock from './AppBlock.vue'
+    import AppBlock from './AppBlock.vue'
+    import AppBlockSpace from './AppBlockSpace.vue'
 
 export default {
     name: 'BlockRow',
     components: {
-        AppBlock
+        AppBlock,
+        AppBlockSpace
     },
     props: {
         blocks: {
@@ -47,10 +49,7 @@ export default {
     methods: {
         allowDrop(ev) {
             ev.preventDefault();
-        },
-        hoho(ev) {
-            console.log(ev)
-            console.log('hihi')
+            console.log('allowDrop')
         }
     }
 }
@@ -65,8 +64,5 @@ export default {
 .blockrow__blocks {
     display: flex;
     flex-grow: 1;
-}
-.empty {
-    height: 25px;
 }
 </style>

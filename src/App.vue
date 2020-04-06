@@ -8,8 +8,9 @@
       @insBelow="insertBelowRow(i)"
       @insSide="insertRightOf(i, $event)"
       @dragstart="moveStart($event)"
-      @dragEnd="moveEnd(i, $event)"
+      @dragEnd="moveEnd($event)"
       @removeBlock="removeBlock(i, $event)"
+      @updateText="updateBlockText($event)"
     />
   </div>
 </template>
@@ -27,110 +28,83 @@ export default {
       rows: [
         {
           blocks: [
-              {defaultText: ""},
-              {defaultText: ""},
-              {defaultText: ""},
+              {text: "0-0"},
+              {text: "0-1"},
+              {text: ""},
           ]
         },
-        {
-            blocks: [
-                {defaultText: ""},
-                {defaultText: "hoho"}
+        { blocks: [
+            {text: "1-0"},
+            {text: "1-1"},
             ]
         },
         {
           blocks: [
-              {defaultText: "hej"}
+            {text: "2-0"}
           ]
         },
       ],
-      draggedItemIndex: null,
+      draggedBlock: null,
     }
   },
-  computed: {
-  },
   methods: {
-
       insertBelowRow(rowOrder) {
           const row = {
               blocks: [
-                  {defaultText: "hej"}
+                  {defaultText: ""}
               ]
           };
           this.insertRow(row, rowOrder+1);
       },
       insertRightOf(rowInd, blockInd) {
           const block = {
-              defaultText: "hej"
+              defaultText: ""
           }
           this.insertBlock(block, rowInd, blockInd)
       },
-      updateOrderFrom(startOrder, isIncreased) {
-          for (let i = 0; i <= this.rows.length; i++) {
-              let order = this.rows[i].order
-              if (order >= startOrder) {
-                  if (isIncreased) {
-                      this.rows[i].order = order + 1
-                  } else {
-                      this.rows[i].order = order - 1
-                  }
-              }
-          }
-      },
       moveStart([fromRow, fromBlock, text]) {
-          console.log('movestart')
-          console.log(fromRow)
-          console.log(fromBlock)
           console.log(text)
-          this.draggedItemIndex = {
+          this.draggedBlock = {
               row: fromRow,
               block: fromBlock,
               text: text
           }
       },
-      moveEnd(toRow, [toIndex, insertAfter]) {
+      moveEnd([toRowIndex, toBlockIndex, isNewRow]) {
+          console.log('MOVEEND');
+          console.log(toRowIndex)
+          console.log(toBlockIndex)
 
-          if (this.draggedItemIndex && (this.draggedItemIndex.row != toRow || this.draggedItemIndex.block != toIndex)) {
-              if (toIndex != -1) {
-                  if (insertAfter) {
-                      toIndex = toIndex + 1;
-                  }
-                  this.moveBlock(
-                      this.draggedItemIndex.row,
-                      this.draggedItemIndex.block,
-                      toRow,
-                      toIndex,
-                      this.draggedItemIndex.text
-                  )
-              } else {
-                  if (insertAfter) {
-                      toRow = toRow + 1;
-                  }
-                  const row = {
-                      blocks: [
-                      ]
-                  };
-                  this.insertRow(row, toRow);
-                  this.moveBlock(
-                      this.draggedItemIndex.row,
-                      this.draggedItemIndex.block,
-                      toRow,
-                      toIndex +1,
-                      this.draggedItemIndex.text
-                  )
+          let fromRowIndex = this.draggedBlock.row
+          let fromBlockIndex = this.draggedBlock.block
+
+          // Save and remove old block
+          const block = this.rows[fromRowIndex].blocks[fromBlockIndex]
+
+          // Add new row if neccessary and update old index
+          if (isNewRow) {
+              const row = {blocks: []};
+              this.insertRow(row, toRowIndex);
+              if (toRowIndex <= fromRowIndex) {
+                  fromRowIndex += 1;
               }
-
           }
-          this.draggedItemIndex = null
-      },
-      moveBlock(fromRow, fromBlock, toRow, toBlock, text) {
-          console.log(text)
-          const block = {defaultText: text}
-          this.removeBlock(fromRow, fromBlock)
-          this.insertBlock(block, toRow, toBlock)
-          this.rows[fromRow].blocks.length == 0 ? this.removeRow(fromRow) : ''
+          // Insert block at given position
+          this.insertBlock(block, toRowIndex, toBlockIndex)
+
+          //Update block index and remove block
+          let moveOnSameRow = toRowIndex == fromRowIndex
+          if (moveOnSameRow && toBlockIndex <= fromBlockIndex) {
+              fromBlockIndex = fromBlockIndex +1
+          }
+          this.removeBlock(fromRowIndex, fromBlockIndex)
+
+          // Remove old row if necessary
+          this.rows[fromRowIndex].blocks.length == 0 ? this.removeRow(fromRowIndex) : ''
+          this.draggedBlock = null
       },
       removeBlock(rowInd, blockInd) {
+          console.log('remove Block', rowInd, blockInd)
           this.rows[rowInd].blocks.splice(blockInd, 1)
       },
       insertBlock(block, rowInd, blockInd) {
@@ -142,6 +116,11 @@ export default {
       insertRow(row, rowInd) {
           this.rows.splice(rowInd, 0, row)
       },
+      updateBlockText([indexRow, indexBlock, text]) {
+          this.rows[indexRow].blocks[indexBlock].text = text
+
+
+      }
   }
 }
 </script>

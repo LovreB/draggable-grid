@@ -1,65 +1,49 @@
 <template>
-    <div class="block__container">
-        <app-block-space
-            @drop.native="$emit('moveEnd', false)"
-            @dragover.native="allowDrop"
+    <div
+        class="block"
+        @mouseover="showAddButtons"
+        @mouseleave="hideAddButtons"
+    >
+        <AppBlockContent
+            draggable="true"
+            :text="text"
+            @dragstart.native="dragstart"
+            @updateText="$emit('updateText', [indexRow, indexBlock, $event])"
+            @removeBlock="$emit('removeBlock')"
         />
-        <div
-            class="block"
-            @mouseover="showAddButtons"
-            @mouseleave="hideAddButtons"
-        >
-            <AppBlockContent
-                draggable="true"
-                :defaultText="defaultText"
-                @dragstart.native="dragstart"
-                @updateText="updateText"
-            />
-            <AddButton
-                    position="right"
-                    :isHidden="!isHovering"
-                    @click.native="$emit('insSide')"
-            />
-            <AddButton
-                    position="bottom"
-                    :isHidden="!isHovering"
-                    @click.native="$emit('insBelow')"
-            />
-        </div>
-
-        <app-block-space
-            @drop.native="$emit('moveEnd', true)"
-            @dragover.native="allowDrop"
+        <AddButton
+                position="right"
+                :isHidden="!isHovering"
+                @click.native="$emit('insSide')"
+        />
+        <AddButton
+                position="bottom"
+                :isHidden="!isHovering"
+                @click.native="$emit('insBelow')"
         />
     </div>
 </template>
 
 <script>
 import AddButton from './AddButton.vue'
-import AppBlockSpace from './AppBlockSpace.vue'
 import AppBlockContent from './AppBlockContent.vue'
 
 export default {
     name: 'AppBlock',
     components: {
         AddButton,
-        AppBlockSpace,
         AppBlockContent
     },
     props: {
-        defaultText: String,
+        text: String,
         indexRow: Number,
         indexBlock: Number
     },
     data: function() {
         return {
             isEditorMode: false,
-            isHovering: false,
-            text: '',
+            isHovering: false
         }
-    },
-    created() {
-        this.text = this.title
     },
     methods: {
         showAddButtons() {
@@ -81,7 +65,12 @@ export default {
         updateText(text) {
             this.text = text
         },
+        drop(ev){
+            console.log('DROP');
+            ev.preventDefault()
+        },
         allowDrop(ev) {
+            console.log('hihi')
             ev.preventDefault();
         }
     }
