@@ -106,6 +106,8 @@ export default {
       removeBlock(rowInd, blockInd) {
           console.log('remove Block', rowInd, blockInd)
           this.rows[rowInd].blocks.splice(blockInd, 1)
+          this.rows[rowInd].blocks.length == 0 ? this.removeRow(rowInd) : ''
+
       },
       insertBlock(block, rowInd, blockInd) {
           this.rows[rowInd].blocks.splice(blockInd, 0, block)
